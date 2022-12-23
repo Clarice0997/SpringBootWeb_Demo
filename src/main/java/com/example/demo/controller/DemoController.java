@@ -12,8 +12,13 @@ public class DemoController {
     // http://localhost:8080/demo
     // Get请求Mapping Post请求Mapping
     // @GetMapping("/demo") @PostMapping("/demo")
-    @RequestMapping(value = "/demo",method = RequestMethod.GET)
-    public String Demo(){
-        return "你好 世界";
+    @RequestMapping(value = "/demo", method = RequestMethod.GET)
+    public String Demo(String nickname) {
+        // 判断nickname是否存在
+        if(nickname == null){
+            return "你好";
+        }else{
+            return "你好 " + nickname;
+        }
     }
 }
