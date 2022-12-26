@@ -6,13 +6,22 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class Order {
     private Integer id;
     private String name;
+    private int uid;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -12,4 +12,8 @@ public interface OrderMapper extends BaseMapper<Order> {
     // 根据用户ID查询当前用户所有订单
     @Select("select * from orders where uid = #{uid}")
     public List<Order> selectOrdersById(int uid);
+
+    // 获取所有订单信息（分页）
+    @Select("select * from orders limit #{pageCount},#{pageSize}")
+    public List<Order> selectOrdersPaging(int pageCount, int pageSize);
 }
