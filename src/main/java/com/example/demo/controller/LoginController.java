@@ -19,6 +19,10 @@ public class LoginController {
     @PostMapping("/register")
     public Result register(Account account){
         String message = loginService.register(account);
-        return Result.ok().data("message",message);
+        if(message == "注册成功"){
+            return Result.ok().data("message",message);
+        }else{
+            return Result.error().data("message",message);
+        }
     }
 }
