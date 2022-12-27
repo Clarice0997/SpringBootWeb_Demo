@@ -5,6 +5,7 @@ import com.example.demo.entity.Account;
 import com.example.demo.entity.Login;
 import com.example.demo.entity.Order;
 import com.example.demo.mapper.LoginMapper;
+import com.example.demo.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,8 @@ public class LoginService {
         String originPassword = loginMapper.getPassword(account.getAccount());
         if(bCryptPasswordEncoder.matches(account.getPassword(),originPassword)){
             login.setCode(200);
-            login.setToken("token");
+            String token = JwtUtils.generateToken(account.getAccount());
+            login.setToken(token);
             return login;
         }else{
             login.setCode(413);

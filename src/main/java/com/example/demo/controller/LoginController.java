@@ -5,10 +5,7 @@ import com.example.demo.entity.Login;
 import com.example.demo.service.LoginService;
 import com.example.demo.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -37,5 +34,11 @@ public class LoginController {
         }else{
             return Result.error().data("message","登录失败");
         }
+    }
+
+    // 获取用户信息接口
+    @GetMapping("/userInfo")
+    public Result userInfo(){
+        return Result.error().data("message","获取个人信息失败");
     }
 }
