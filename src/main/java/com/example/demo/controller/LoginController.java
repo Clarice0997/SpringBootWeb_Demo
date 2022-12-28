@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Login;
 import com.example.demo.service.LoginService;
+import com.example.demo.utils.JwtUtils;
 import com.example.demo.utils.Result;
+import com.example.demo.utils.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,16 @@ public class LoginController {
     // 获取用户信息接口
     @GetMapping("/userInfo")
     public Result userInfo(){
-        return Result.error().data("message","获取个人信息失败");
+        try{
+            String token = UserRequest.getCurrentToken();
+            System.out.println(token);
+            token = token.split(" ")[1];
+            System.out.println(token);
+            Account account = new Account();
+            account = JwtUtils.verify(token);
+            return Result.ok().data("data",account);
+        }catch (Exception e){
+            return Result.error().data("message","获取个人信息失败");
+        }
     }
 }

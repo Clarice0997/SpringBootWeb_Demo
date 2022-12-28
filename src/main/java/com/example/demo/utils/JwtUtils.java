@@ -1,18 +1,13 @@
 package com.example.demo.utils;
 
-import com.alibaba.druid.util.StringUtils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.entity.Account;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class JwtUtils {
     //7天过期
@@ -36,9 +31,19 @@ public class JwtUtils {
 
     /**
      * 验证token合法性 成功返回token
+     * @return
      */
-    public static DecodedJWT verify(String token) {
+    public static Account verify(String token) {
         JWTVerifier build = JWT.require(Algorithm.HMAC256(secret)).build();
-        return build.verify(token);
+        DecodedJWT decodedJWT = build.verify(token);
+        // 解码
+        int id = decodedJWT.getClaim("userId").asInt();
+        String username = decodedJWT.getClaim("username").asString();
+        // 持久化
+        Account account = new Account();
+        account.setId(id);
+        account.setAccount(username);
+        // 返回用户对象
+        return account;
     }
 }
