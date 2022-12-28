@@ -15,4 +15,8 @@ public interface LoginMapper extends BaseMapper<Account> {
     // 查询对应账号密码Mapper
     @Select("select password from account where account = #{account}")
     public String getPassword(String account);
+
+    // 查询账户ID
+    @Select("select id from account where account = #{account}")
+    public int getAccountId(String account);
 }

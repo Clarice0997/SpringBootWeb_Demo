@@ -33,13 +33,17 @@ public class LoginService {
             return login;
         } else {
             System.out.println("用户已存在");
+            // 查询用户ID
+            int id = loginMapper.getAccountId(account.getAccount());
+            // 持久化ID
+            account.setId(id);
         }
         // 账号存在则确定该账号密码是否正确
         // 获取原密码
         String originPassword = loginMapper.getPassword(account.getAccount());
         if(bCryptPasswordEncoder.matches(account.getPassword(),originPassword)){
             login.setCode(200);
-            String token = JwtUtils.generateToken(account.getAccount());
+            String token = JwtUtils.generateToken(account);
             login.setToken(token);
             return login;
         }else{
