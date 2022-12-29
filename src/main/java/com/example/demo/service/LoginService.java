@@ -18,15 +18,20 @@ public class LoginService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // 登录Service
+    /**
+     * 登录Service
+     * @param account
+     * @return
+     */
     public Login login(Account account){
         // 获取当前登录用户账号
         String userAccount = account.getAccount();
         // 构建登录对象
         Login login = new Login();
-        // 判断账号是否存在
+        // 构建条件查询条件
         QueryWrapper<Account> queryWrapper = new QueryWrapper();
         queryWrapper.eq("account", userAccount);
+        // 判断账号是否存在
         if (loginMapper.selectOne(queryWrapper) == null) {
             System.out.println("用户不存在");
             login.setCode(413);
@@ -38,11 +43,13 @@ public class LoginService {
             // 持久化ID
             account.setId(id);
         }
-        // 账号存在则确定该账号密码是否正确
+        // 账号存在则判断该账号密码是否正确
         // 获取原密码
         String originPassword = loginMapper.getPassword(account.getAccount());
+        // bcrypt判断密码是否相同
         if(bCryptPasswordEncoder.matches(account.getPassword(),originPassword)){
             login.setCode(200);
+            // JWT签名
             String token = JwtUtils.generateToken(account);
             login.setToken(token);
             return login;
@@ -52,13 +59,18 @@ public class LoginService {
         }
     }
 
-    // 注册Service
+    /**
+     * 注册Service
+     * @param account
+     * @return
+     */
     public String register(Account account) {
         // 获取当前注册用户账号
         String userAccount = account.getAccount();
-        // 判断账号是否存在
+        // 构建条件查询条件对象
         QueryWrapper<Account> queryWrapper = new QueryWrapper();
         queryWrapper.eq("account", userAccount);
+        // 判断账号是否存在
         if (loginMapper.selectOne(queryWrapper) == null) {
             System.out.println("用户不存在");
         } else {
@@ -74,6 +86,7 @@ public class LoginService {
         account.setPassword(password);
 
         int i = loginMapper.register(account);
+        // 判断注册是否成功
         if (i != 0) {
             return "注册成功";
         } else {

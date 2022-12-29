@@ -12,6 +12,7 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
+    // 注入bcrypt
     @Bean
     public BCryptPasswordEncoder bcryptPasswordEncoder(){
         return new BCryptPasswordEncoder();

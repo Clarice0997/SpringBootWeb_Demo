@@ -10,36 +10,44 @@ import com.example.demo.entity.Account;
 import java.util.Calendar;
 
 public class JwtUtils {
-    //7天过期
+    // 7天过期
     private static long expire = 604800;
-    //32位秘钥
+    // 32位秘钥
     private static String secret = "abcdfghiabcdfghiabcdfghiabcdfghi";
 
-    //生成token
+    /**
+     * 生成token
+     * @param account
+     * @return token
+     */
     public static String generateToken(Account account){
         Calendar instance = Calendar.getInstance();
-        //默认令牌过期时间7天
+        // 默认令牌过期时间7天
         instance.add(Calendar.DATE, 7);
+        // 构建JWT
         JWTCreator.Builder builder = JWT.create();
-        // 构建Jwt负载
+        // JWT payload
         builder.withClaim("username", account.getAccount())
                 .withClaim("userId", account.getId());
-        // 返回Jwt
+        // 返回JWT字符串
         return builder.withExpiresAt(instance.getTime())
                 .sign(Algorithm.HMAC256(secret));
     }
 
     /**
-     * 验证token合法性 成功返回token
-     * @return
+     * 验证token合法性 成功返回用户对象
+     * @param token
+     * @return account
      */
     public static Account verify(String token) {
+        // 构建JWTVerifier对象
         JWTVerifier build = JWT.require(Algorithm.HMAC256(secret)).build();
+        // 解码JWT
         DecodedJWT decodedJWT = build.verify(token);
-        // 解码
+        // 结构Payload
         int id = decodedJWT.getClaim("userId").asInt();
         String username = decodedJWT.getClaim("username").asString();
-        // 持久化
+        // 持久化用户对象
         Account account = new Account();
         account.setId(id);
         account.setAccount(username);

@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 public class UserRequest {
     // 获取当前请求头Token
     public static String getCurrentToken() {
+        // request对象
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // 获取Authorization请求头
         String token = request.getHeader("Authorization");
+        // 返回Token
         return token;
     }
 }

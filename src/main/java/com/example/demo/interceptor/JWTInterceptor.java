@@ -14,11 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 public class JWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // 获取JWT
         String token = request.getHeader("Authorization");
+        // 判断JWT是否为空
         if(StringUtils.isEmpty(token)){
             return false;
         }
         try {
+            // 验证JWT是否合法
             JwtUtils.verify(token);
         } catch (SignatureVerificationException e) {
             return false;

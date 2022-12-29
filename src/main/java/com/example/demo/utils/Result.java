@@ -4,7 +4,7 @@ package com.example.demo.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-//统一返回结果的类
+// 统一返回结果的类
 public class Result {
 
     private Boolean success;
@@ -48,11 +48,10 @@ public class Result {
     }
 
 
-
-    //把构造方法私有
+    // 把构造方法私有
     private Result() {}
 
-    //成功静态方法
+    // 成功静态方法
     public static Result ok() {
         Result r = new Result();
         r.setSuccess(true);
@@ -61,7 +60,7 @@ public class Result {
         return r;
     }
 
-    //失败静态方法
+    // 失败静态方法
     public static Result error() {
         Result r = new Result();
         r.setSuccess(false);
